@@ -1,0 +1,20 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+    float m,n,l,semiperimetro,area;
+    
+    cout<<"Ingresar valor de m:";
+    cin>>m;
+    cout<<"ingresar valor de n:";
+    cin>>n;
+    cout<<"ingresar valor de l:";
+    cin>>l;
+    semiperimetro= (m+n+l)/2 ;
+    cout<<"El semiperimetro es:"<<semiperimetro;
+    area= sqrt(semiperimetro*(semiperimetro-m)*(semiperimetro-n)*(semiperimetro-l));
+    cout<<endl<<"El area es:"<<area;
+    return 0;
+}
