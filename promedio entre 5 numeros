@@ -1,0 +1,22 @@
+int main()
+{
+    int r=0,n;
+    cout<<"Ingresar primer numero:  "<<endl;
+    cin>>n;
+    r=r+n;
+    cout<<"Ingresar segundo numero:  "<<endl;
+    cin>>n;
+    r=r+n;
+    cout<<"Ingresar tercer numero:  "<<endl;
+    cin>>n;
+    r=r+n;
+    cout<<"Ingresar cuarto numero:  "<<endl;
+    cin>>n;
+    r=r+n;
+    cout<<"Ingresar quinto numero:  "<<endl;
+    cin>>n;
+    r=r+n;
+    r=r/5;
+    cout<<"El promedio es:  "<<r;
+    return 0;
+}
