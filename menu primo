@@ -1,0 +1,40 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    char respuesta;
+    
+    do {
+        int n, cont = 2, cont2 = 0;
+        
+        cout << "Ingrese la cantidad de numeros primos a generar: ";
+        cin >> n;
+        
+        while (cont2 < n) {
+            bool flag = true; 
+            
+            for (int i = 2; i <= sqrt(cont); i++) {
+                if (cont % i == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            
+            if (flag) {
+                cout << cont << ", ";
+                cont2++;
+            }
+            
+            cont++;
+        }
+        
+        cout<<endl;
+        cout << "¿Desea repetir la secuencia? (s/n): ";
+        cin >> respuesta;
+        cout << endl;
+        
+    } while (respuesta == 's' || respuesta == 'S');
+    
+    return 0;
+}
