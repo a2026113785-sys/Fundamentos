@@ -1,0 +1,23 @@
+//Autor: Mauricio Oropeza  //Numero de Ejercicio: 10 
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+int main()
+{
+	int n, fatorial = 1;
+	double x, suma = 0;
+
+	cout << "Ingrese el valor de X:  " << endl;
+	cin >> x;
+
+	cout << "Ingrese el numero que seguira la secuencia:  " << endl;
+	cin >> n;
+
+	if (n % 2 == 0 || n < 1) {
+		cout << "El valor de n debe ser impar mayor o igual a 1" << endl;
+		return 1;
+	}
+	for (int i = 1; i <= n ;i + 2) {
+}  
+			
