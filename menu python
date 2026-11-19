@@ -1,285 +1,252 @@
-#include <iostream>
-#include <vector>
-#include <string>
-
-using namespace std;
-
-// VECTORES
-vector<vector<string>> usuarios;
-vector<vector<string>> personas;
+# VECTORES
+usuarios = []
+personas = []
 
 
-// REGISTRAR USUARIO
-void registrar_usuario() {
-    cout << "\n--- REGISTRAR USUARIO ---" << endl;
-    string usuario;
-    cout << "Ingrese usuario: ";
-    cin >> usuario;
+# VALIDAR FECHA DE NACIMIENTO
+def validar_fecha(fecha):
+    if len(fecha) != 10 or fecha[2] != "/" or fecha[5] != "/":
+        return False
 
-    // Verificar si el usuario ya existe
-    for (const auto& u : usuarios) {
-        if (u[0] == usuario) {
-            cout << "El usuario ya existe." << endl;
-            return;
-        }
-    }
+    if not (fecha[0:2] + fecha[3:5] + fecha[6:10]).isdigit():
+        return False
 
-    string clave;
-    cout << "Ingrese contraseña: ";
-    cin >> clave;
+    dia = int(fecha[0:2])
+    mes = int(fecha[3:5])
+    anio = int(fecha[6:10])
 
-    vector<string> nuevo_usuario = { usuario, clave };
-    usuarios.push_back(nuevo_usuario);
-    cout << "Usuario registrado correctamente." << endl;
-}
+    if anio < 1:
+        return False
 
+    if mes < 1 or mes > 12:
+        return False
 
-// LISTAR USUARIOS
-void listar_usuarios() {
-    cout << "\n--- LISTA DE USUARIOS ---" << endl;
+    # Verificar cantidad de dias del mes
+    if mes == 2:
+        # Verificar año bisiesto
+        if anio % 400 == 0 or (anio % 4 == 0 and anio % 100 != 0):
+            dias = 29
+        else:
+            dias = 28
 
-    if (usuarios.size() == 0) {
-        cout << "No hay usuarios registrados." << endl;
-    }
-    else {
-        for (size_t i = 0; i < usuarios.size(); i++) {
-            cout << "\nUsuario Nro: " << i + 1 << endl;
-            cout << "Usuario: " << usuarios[i][0] << endl;
-        }
-    }
-}
+    elif mes == 4 or mes == 6 or mes == 9 or mes == 11:
+        dias = 30
+
+    else:
+        dias = 31
+
+    if dia < 1 or dia > dias:
+        return False
+
+    return True
 
 
-// MODIFICAR USUARIO
-void modificar_usuario() {
-    cout << "\n--- MODIFICAR USUARIO ---" << endl;
-    string nombre;
-    cout << "Ingrese el usuario que desea modificar: ";
-    cin >> nombre;
+# REGISTRAR USUARIO
+def registrar_usuario():
+    print("\n--- REGISTRAR USUARIO ---")
+    usuario = input("Ingrese usuario: ")
 
-    for (auto& u : usuarios) {
-        if (u[0] == nombre) {
-            cout << "Nuevo nombre de usuario: ";
-            cin >> u[0];
-            cout << "Nueva contraseña: ";
-            cin >> u[1];
-            cout << "Usuario modificado correctamente." << endl;
-            return;
-        }
-    }
+    # Verificar si el usuario ya existe
+    for u in usuarios:
+        if u[0] == usuario:
+            print("El usuario ya existe.")
+            return
 
-    cout << "Usuario no encontrado." << endl;
-}
+    clave = input("Ingrese contraseña: ")
+    usuarios.append([usuario, clave])
+    print("Usuario registrado correctamente.")
 
 
-// BORRAR USUARIO
-void borrar_usuario() {
-    cout << "\n--- BORRAR USUARIO ---" << endl;
-    string nombre;
-    cout << "Ingrese el usuario que desea eliminar: ";
-    cin >> nombre;
+# LISTAR USUARIOS
+def listar_usuarios():
+    print("\n--- LISTA DE USUARIOS ---")
 
-    for (auto it = usuarios.begin(); it != usuarios.end(); ++it) {
-        if ((*it)[0] == nombre) {
-            usuarios.erase(it);
-            cout << "Usuario eliminado correctamente." << endl;
-            return;
-        }
-    }
-
-    cout << "Usuario no encontrado." << endl;
-}
+    if len(usuarios) == 0:
+        print("No hay usuarios registrados.")
+    else:
+        for i in range(len(usuarios)):
+            print("\nUsuario Nro:", i + 1)
+            print("Usuario:", usuarios[i][0])
 
 
-// INICIAR SESION
-bool login() {
-    cout << "\n--- INICIAR SESION ---" << endl;
-    string usuario, clave;
-    cout << "Usuario: ";
-    cin >> usuario;
-    cout << "Contraseña: ";
-    cin >> clave;
+# MODIFICAR USUARIO
+def modificar_usuario():
+    print("\n--- MODIFICAR USUARIO ---")
+    nombre = input("Ingrese el usuario que desea modificar: ")
 
-    for (const auto& u : usuarios) {
-        if (u[0] == usuario && u[1] == clave) {
-            cout << "Bienvenido " << usuario << endl;
-            return true;
-        }
-    }
+    for u in usuarios:
+        if u[0] == nombre:
+            u[0] = input("Nuevo nombre de usuario: ")
+            u[1] = input("Nueva contraseña: ")
+            print("Usuario modificado correctamente.")
+            return
 
-    cout << "Usuario o contraseña incorrectos." << endl;
-    return false;
-}
+    print("Usuario no encontrado.")
 
 
-// REGISTRAR PERSONA
-void registrar_persona() {
-    cout << "\n--- REGISTRAR PERSONA ---" << endl;
+# BORRAR USUARIO
+def borrar_usuario():
+    print("\n--- BORRAR USUARIO ---")
+    nombre = input("Ingrese el usuario que desea eliminar: ")
 
-    string nombre, edad, ci, direccion, telefono;
-    cout << "Nombre: ";
-    cin >> nombre;
-    cout << "Edad: ";
-    cin >> edad;
-    cout << "CI: ";
-    cin >> ci;
-    cout << "Direccion: ";
-    cin >> direccion;
-    cout << "Telefono: ";
-    cin >> telefono;
+    for u in usuarios:
+        if u[0] == nombre:
+            usuarios.remove(u)
+            print("Usuario eliminado correctamente.")
+            return
 
-    vector<string> persona = { nombre, edad, ci, direccion, telefono };
-    personas.push_back(persona);
-
-    cout << "Persona registrada correctamente." << endl;
-}
+    print("Usuario no encontrado.")
 
 
-// LISTAR PERSONAS
-void listar_personas() {
-    cout << "\n--- LISTA DE PERSONAS ---" << endl;
+# INICIAR SESION
+def login():
+    print("\n--- INICIAR SESION ---")
+    usuario = input("Usuario: ")
+    clave = input("Contraseña: ")
 
-    if (personas.size() == 0) {
-        cout << "No existen personas registradas." << endl;
-    }
-    else {
-        for (size_t i = 0; i < personas.size(); i++) {
-            cout << "\nPersona Nro: " << i + 1 << endl;
-            cout << "Nombre: " << personas[i][0] << endl;
-            cout << "Edad: " << personas[i][1] << endl;
-            cout << "CI: " << personas[i][2] << endl;
-            cout << "Direccion: " << personas[i][3] << endl;
-            cout << "Telefono: " << personas[i][4] << endl;
-        }
-    }
-}
+    for u in usuarios:
+        if u[0] == usuario and u[1] == clave:
+            print("Bienvenido", usuario)
+            return True
+
+    print("Usuario o contraseña incorrectos.")
+    return False
 
 
-// BORRAR PERSONA
-void borrar_persona() {
-    cout << "\n--- BORRAR PERSONA ---" << endl;
-    string ci;
-    cout << "Ingrese el CI: ";
-    cin >> ci;
+# REGISTRAR PERSONA
+def registrar_persona():
+    print("\n--- REGISTRAR PERSONA ---")
 
-    for (auto it = personas.begin(); it != personas.end(); ++it) {
-        if ((*it)[2] == ci) {
-            personas.erase(it);
-            cout << "Persona eliminada correctamente." << endl;
-            return;
-        }
-    }
+    nombre = input("Nombre: ")
+    fecha = input("Fecha de nacimiento (DD/MM/AAAA): ")
 
-    cout << "Persona no encontrada." << endl;
-}
+    while not validar_fecha(fecha):
+        print("Fecha incorrecta. Ingrese una fecha real.")
+        fecha = input("Fecha de nacimiento (DD/MM/AAAA): ")
 
+    ci = input("CI: ")
+    direccion = input("Direccion: ")
+    telefono = input("Telefono: ")
 
-// MODIFICAR PERSONA
-void modificar_persona() {
-    cout << "\n--- MODIFICAR PERSONA ---" << endl;
-    string ci;
-    cout << "Ingrese el CI de la persona: ";
-    cin >> ci;
+    persona = [nombre, fecha, ci, direccion, telefono]
+    personas.append(persona)
 
-    for (auto& p : personas) {
-        if (p[2] == ci) {
-            cout << "Nuevo nombre: ";
-            cin >> p[0];
-            cout << "Nueva edad: ";
-            cin >> p[1];
-            cout << "Nuevo CI: ";
-            cin >> p[2];
-            cout << "Nueva direccion: ";
-            cin >> p[3];
-            cout << "Nuevo telefono: ";
-            cin >> p[4];
-
-            cout << "Persona modificada correctamente." << endl;
-            return;
-        }
-    }
-
-    cout << "Persona no encontrada." << endl;
-}
+    print("Persona registrada correctamente.")
 
 
-// MENU DE PERSONAS
-void menu_personas() {
-    while (true) {
-        cout << "\n===== MENU DE PERSONAS =====" << endl;
-        cout << "1. Registrar persona" << endl;
-        cout << "2. Listar personas" << endl;
-        cout << "3. Modificar persona" << endl;
-        cout << "4. Borrar persona" << endl;
-        cout << "5. Cerrar sesion" << endl;
+# LISTAR PERSONAS
+def listar_personas():
+    print("\n--- LISTA DE PERSONAS ---")
 
-        string op;
-        cout << "Seleccione una opcion: ";
-        cin >> op;
-
-        if (op == "1") {
-            registrar_persona();
-        }
-        else if (op == "2") {
-            listar_personas();
-        }
-        else if (op == "3") {
-            modificar_persona();
-        }
-        else if (op == "4") {
-            borrar_persona();
-        }
-        else if (op == "5") {
-            cout << "Sesion cerrada." << endl;
-            break;
-        }
-        else {
-            cout << "Opcion incorrecta." << endl;
-        }
-    }
-}
+    if len(personas) == 0:
+        print("No existen personas registradas.")
+    else:
+        for i in range(len(personas)):
+            print("\nPersona Nro:", i + 1)
+            print("Nombre:", personas[i][0])
+            print("Fecha de nacimiento:", personas[i][1])
+            print("CI:", personas[i][2])
+            print("Direccion:", personas[i][3])
+            print("Telefono:", personas[i][4])
 
 
-// MENU PRINCIPAL DE USUARIOS
-int main() {
-    while (true) {
-        cout << "\n===== SISTEMA DE LOGIN =====" << endl;
-        cout << "1. Registrar usuario" << endl;
-        cout << "2. Listar usuarios" << endl;
-        cout << "3. Modificar usuario" << endl;
-        cout << "4. Borrar usuario" << endl;
-        cout << "5. Iniciar sesion" << endl;
-        cout << "6. Salir" << endl;
+# BORRAR PERSONA
+def borrar_persona():
+    print("\n--- BORRAR PERSONA ---")
+    ci = input("Ingrese el CI: ")
 
-        string op;
-        cout << "Seleccione una opcion: ";
-        cin >> op;
+    for p in personas:
+        if p[2] == ci:
+            personas.remove(p)
+            print("Persona eliminada correctamente.")
+            return
 
-        if (op == "1") {
-            registrar_usuario();
-        }
-        else if (op == "2") {
-            listar_usuarios();
-        }
-        else if (op == "3") {
-            modificar_usuario();
-        }
-        else if (op == "4") {
-            borrar_usuario();
-        }
-        else if (op == "5") {
-            if (login()) {
-                menu_personas();
-            }
-        }
-        else if (op == "6") {
-            cout << "Gracias por utilizar el sistema." << endl;
-            break;
-        }
-        else {
-            cout << "Opcion incorrecta." << endl;
-        }
-    }
+    print("Persona no encontrada.")
 
-    return 0;
-}
+
+# MODIFICAR PERSONA
+def modificar_persona():
+    print("\n--- MODIFICAR PERSONA ---")
+    ci = input("Ingrese el CI de la persona: ")
+
+    for p in personas:
+        if p[2] == ci:
+            p[0] = input("Nuevo nombre: ")
+
+            fecha = input("Nueva fecha de nacimiento (DD/MM/AAAA): ")
+
+            while not validar_fecha(fecha):
+                print("Fecha incorrecta. Ingrese una fecha real.")
+                fecha = input("Nueva fecha de nacimiento (DD/MM/AAAA): ")
+
+            p[1] = fecha
+            p[2] = input("Nuevo CI: ")
+            p[3] = input("Nueva direccion: ")
+            p[4] = input("Nuevo telefono: ")
+
+            print("Persona modificada correctamente.")
+            return
+
+    print("Persona no encontrada.")
+
+
+# MENU DE PERSONAS
+def menu_personas():
+    while True:
+        print("\n===== MENU DE PERSONAS =====")
+        print("1. Registrar persona")
+        print("2. Listar personas")
+        print("3. Modificar persona")
+        print("4. Borrar persona")
+        print("5. Cerrar sesion")
+
+        op = input("Seleccione una opcion: ")
+
+        if op == "1":
+            registrar_persona()
+        elif op == "2":
+            listar_personas()
+        elif op == "3":
+            modificar_persona()
+        elif op == "4":
+            borrar_persona()
+        elif op == "5":
+            print("Sesion cerrada.")
+            break
+        else:
+            print("Opcion incorrecta.")
+
+
+# MENU PRINCIPAL DE USUARIOS
+def main():
+    while True:
+        print("\n===== SISTEMA DE LOGIN =====")
+        print("1. Registrar usuario")
+        print("2. Listar usuarios")
+        print("3. Modificar usuario")
+        print("4. Borrar usuario")
+        print("5. Iniciar sesion")
+        print("6. Salir")
+
+        op = input("Seleccione una opcion: ")
+
+        if op == "1":
+            registrar_usuario()
+        elif op == "2":
+            listar_usuarios()
+        elif op == "3":
+            modificar_usuario()
+        elif op == "4":
+            borrar_usuario()
+        elif op == "5":
+            if login():
+                menu_personas()
+        elif op == "6":
+            print("Gracias por utilizar el sistema.")
+            break
+        else:
+            print("Opcion incorrecta.")
+
+
+# EJECUTAR PROGRAMA
+main()
