@@ -1,0 +1,90 @@
+//#include "stdafx.h"
+#include <iostream>
+//#include "conio.h"
+#include "stdlib.h"
+#include "Math.h"
+
+using namespace std;
+//PROTOTIPO
+int elmenor(int a, int b);
+int signo(float c);
+int elevar(int n, int m);
+
+
+void main()
+{
+	float c,x;
+	int a,b, opcion,n,m;
+	// Menu
+	do {
+		//Desplegar las opciones
+		cout << "\t\t Menu \n";
+		cout << "\t\t ==== \n";
+		cout << "1. El menor de 2 numeros\n";
+		cout << "2. El signo\n";
+		cout << "3. Elevacion\n";
+		cout << "0. Salir\n";
+		cout << "Opcion: ";
+		cin >> opcion;
+		// Condicional multiple
+		switch (opcion)
+		{
+		case 1: 
+			cout << "Ingrese el primer numero:";
+			cin >> a;
+			cout << "Ingrese el segundo numero:";
+			cin >> b;
+			cout << "El numero menor es: " << elmenor(a, b);
+			
+			break;
+		case 2:
+			cout << "Ingrese el numero: ";
+			cin >> c;
+			x = signo(c);
+			cout << "El signo del numero es: " << x;
+			break;
+		
+		case 3:
+			cout << "Ingrese el numero entero: ";
+			cin >> n;
+			cout << "Ingrese la potencia: ";
+			cin >> m;
+			cout << "El resultado es: " << elevar(n, m);
+			break;
+		case 0: cout << "Saliendo del Menu";
+			break;
+		default: cout << "ERROR de opcion";
+			break;
+		}
+		//getch();
+		system("cls");
+	} while (opcion != 0);
+	//getch();
+
+}
+//declaracion de funciones
+int elmenor(int a, int b) {
+	if (a < b) return a;
+	else return b;
+}
+
+
+
+int signo(float c) {
+	if (c == 0) return 0;
+	else
+		if (c < 0) return -1;
+		else
+			return 1;
+}
+
+
+
+
+int elevar(int n, int m) {
+	int acum = 1;
+	for (int i=1; i <= m; i++) {
+		acum = acum * n;
+		return acum;
+	}
+}
