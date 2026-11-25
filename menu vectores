@@ -1,0 +1,111 @@
+#include <iostream>
+#define MAX 100
+using namespace std;
+
+void cargar(int a[], int tam);
+void mostrar(int a[], int tam);
+void burbuja(int a[], int tam);
+bool esCapicua(int a[], int tam);
+
+int main() {
+    int opcion, n = 0;
+    int v[MAX];
+
+    do {
+        cout << "====================" << endl;
+        cout << "       MENU         " << endl;
+        cout << "====================" << endl;
+        cout << "1. Cargar arreglo" << endl;
+        cout << "2. Mostrar arreglo" << endl;
+        cout << "3. Clasificar (Burbuja)" << endl;
+        cout << "4. Verificar si es capicua" << endl;
+        cout << "0. Salir" << endl;
+        cout << "====================" << endl;
+        cout << "Ingrese una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+        case 1:
+            do {
+                cout << "Cuantos elementos desea (max " << MAX << ")?: ";
+                cin >> n;
+                if (n > MAX || n < 0) {
+                    cout << "Cantidad invalida. Intente de nuevo." << endl;
+                }
+            } while (n > MAX || n < 0);
+            cargar(v, n);
+            break;
+
+        case 2:
+            if (n > 0) {
+                mostrar(v, n);
+            }
+            else {
+                cout << "Primero debe cargar el arreglo (Opcion 1)." << endl;
+            }
+            break;
+
+        case 3:
+            if (n > 0) {
+                burbuja(v, n);
+                cout << "Arreglo clasificado exitosamente." << endl;
+            }
+            else {
+                cout << "Primero debe cargar el arreglo (Opcion 1)." << endl;
+            }
+            break;
+
+        case 4:
+            if (n > 0) {
+                if (esCapicua(v, n)) {
+                    cout << "El arreglo ES capicua." << endl;
+                }
+                else {
+                    cout << "El arreglo NO es capicua." << endl;
+                }
+            }
+            else {
+                cout << "Primero debe cargar el arreglo (Opcion 1)." << endl;
+            }
+            break;
+        case 0:
+            cout << "Saliendo del programa..." << endl;
+            break;
+        default:
+            cout << "Opcion invalida. Intente de nuevo." << endl;
+        }
+    } while (opcion != 0);
+    return 0;
+}
+void cargar(int a[], int tam) {
+    cout << "Ingrese los elementos del arreglo:" << endl;
+    for (int i = 0; i < tam; i++) {
+        cout << "v[" << i << "]= ";
+        cin >> a[i];
+    }
+}
+void mostrar(int a[], int tam) {
+    cout << "Elementos del arreglo:" << endl;
+    for (int i = 0; i < tam; i++) {
+        cout << "v[" << i << "]= " << a[i] << endl;
+    }
+}
+void burbuja(int a[], int tam) {
+    for (int i = 0; i < tam - 1; i++) {
+        for (int j = i + 1; j < tam; j++) {
+            if (a[i] > a[j]) {
+                int aux = a[j];
+                a[j] = a[i];
+                a[i] = aux;
+            }
+        }
+    }
+}
+bool esCapicua(int a[], int tam) {
+    for (int i = 0; i < tam / 2; i++) {
+        if (a[i] != a[tam - 1 - i]) {
+            return false;
+        }
+    }
+    return true;
+}
